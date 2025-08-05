@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -5,7 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
-require('dotenv').config();
+
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -29,11 +30,11 @@ app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://ecommerce-frontend-ecru-beta.vercel.app/'] 
-    : ['http://localhost:3000'],
-  credentials: true
+  origin: process.env.FRONTEND_URL, // e.g. https://your-frontend.vercel.app
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  credentials: true, // 🔥 important for cookies
 }));
+
 
 // Rate limiting
 const limiter = rateLimit({
